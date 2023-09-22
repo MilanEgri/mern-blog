@@ -1,12 +1,11 @@
-import React, { useState, useContext, useEffect } from 'react'
-import ReactQuill from "react-quill"
-import 'react-quill/dist/quill.snow.css'
-import { Navigate } from 'react-router-dom'
-import { UserContext } from '../UserContext'
+import React, { useContext, useEffect, useState } from 'react'
+import ReactQuill from 'react-quill';
+import { Navigate, useParams } from 'react-router-dom';
+import { UserContext } from '../UserContext';
 
 
 const modules = {
-
+    
     toolbar: [
         [{ 'header': [1, 2, false] }],
         ['bold', 'italic', 'underline', 'strike', 'blockquote'],
@@ -22,15 +21,27 @@ const formats = [
     'link', 'image'
 ];
 
-const Create = () => {
 
-    const { userInfo } = useContext(UserContext)
+const EditPost = () => {
+    const { userInfo } = useContext(UserContext);
+    const {id} = useParams();
+    console.log(userInfo)
     useEffect(() => {
-        if (userInfo.id == undefined) {
-            setRedirect(true)
-        }
-    }, [])
+        fetch(`http://localhost:4400/edit/${id}`).then(response => {
+          response.json().then(postInfo => {
+        setTtile(postInfo.title)
+        setSummary(postInfo.summary)
+        setContent(postInfo.content)
+        setIsMain(postInfo.isMain)
+        setIsSport(postInfo.isSport)
+        setIsGastro(postInfo.isGastro)
+        setIsGaming(postInfo.isGaming)
+        setIsFinance(postInfo.isFinance)
+          })
+        })
+      }, [])
 
+    
     const [title, setTtile] = useState('');
     const [summary, setSummary] = useState('');
     const [content, setContent] = useState('');
@@ -41,32 +52,7 @@ const Create = () => {
     const [isFinance, setIsFinance] = useState(false);
     const [file, setFile] = useState('')
     const [redirect, setRedirect] = useState(false)
-
-    async function createNewPost(e) {
-        e.preventDefault();
-        const data = new FormData();
-        data.set('title', title)
-        data.set('summary', summary)
-        data.set('content', content)
-        data.set('isMain', isMain)
-        data.set('isSport', isSport)
-        data.set('isGastro', isGastro)
-        data.set('isGaming', isGaming)
-        data.set('isFinance', isFinance)
-        data.set('file', file[0])
-        const response = await fetch('http://localhost:4400/create', {
-            method: 'POST',
-            body: data,
-            credentials: 'include',
-
-        });
-        if (response.ok) {
-            setRedirect(true)
-        }
-
-
-    }
-
+    
     const handleCheckboxChange = (event) => {
         const { name, checked } = event.target;
         switch (name) {
@@ -89,11 +75,37 @@ const Create = () => {
                 break;
         }
     };
+    async function updatePost(e){
+        e.preventDefault();
+        const data = new FormData();
+        data.set('title', title)
+        data.set('summary', summary)
+        data.set('content', content)
+        data.set('isMain', isMain)
+        data.set('isSport', isSport)
+        data.set('isGastro', isGastro)
+        data.set('isGaming', isGaming)
+        data.set('isFinance', isFinance)
+        data.set('id', id);
+        if(file.length>0){
+            data.set('file', file[0])
+        }
+        const response = await fetch(`http://localhost:4400/post`, {
+            method: 'PUT',
+            body: data,
+            credentials: 'include',
+
+        });
+        if (response.ok) {
+            setRedirect(true)
+        }
+    }
+    
     if (redirect) {
-        return <Navigate to={'/'} />
+        return <Navigate to={`/post/${id}`} />
     }
     return (
-        <form onSubmit={createNewPost}  >
+        <form  onSubmit={updatePost} >
             <input type='title' placeholder='Title' value={title} onChange={e => setTtile(e.target.value)} />
             <input type='summary' placeholder='Summary' value={summary} onChange={e => setSummary(e.target.value)} />
             <input type='file' onChange={e => setFile(e.target.files)} />
@@ -152,9 +164,9 @@ const Create = () => {
                     />
                 </div>
             </div>
-            <button style={{ marginTop: '10px' }}>Create post</button>
+            <button style={{ marginTop: '10px' }}>Update Post</button>
         </form>
     )
 }
 
-export default Create
+export default EditPost

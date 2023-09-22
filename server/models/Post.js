@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const UserModel = require('./User');
 
 const {Schema,model} = mongoose;
 
@@ -14,6 +15,7 @@ const PostShhema = new Schema({
     isGaming : {type:Boolean ,required:true},
     isFinance : {type:Boolean ,required:true},
     file : {type:String ,required:true},
+    author:{type:Schema.Types.ObjectId,ref:UserModel},
 
 },{
     timestamps: true,

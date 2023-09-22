@@ -3,10 +3,10 @@ import Post from '../commponents/Post';
 
 
 
-const Home = () => {
+const Gaming = () => {
   const[posts,setPosts] = useState([]);
   useEffect(() =>{
-        fetch('http://localhost:4400/post-main').then(response =>{
+        fetch('http://localhost:4400/post-gaming').then(response =>{
           response.json().then( posts =>{
             setPosts(posts)
           })
@@ -15,10 +15,10 @@ const Home = () => {
   return (
     <> 
      { posts.length >0&& posts.map(post =>(
-      <Post key={post._id}  {...post} />
+      <Post key={post._id} {...post} />
      ))}
   </>
   )
 }
 
-export default Home
+export default Gaming

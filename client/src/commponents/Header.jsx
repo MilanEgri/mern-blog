@@ -29,7 +29,7 @@ const Header = () => {
       {name? 
       <>
       <Link to="/create">Create new post</Link>
-      <a onClick={logout}>Logout</a>
+      <a style={{cursor:'pointer'}} onClick={logout}>Logout</a>
       </>  
       : <> 
       <Link to={"login"}>Login</Link>
