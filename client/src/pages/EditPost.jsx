@@ -25,7 +25,6 @@ const formats = [
 const EditPost = () => {
     const { userInfo } = useContext(UserContext);
     const {id} = useParams();
-    console.log(userInfo)
     useEffect(() => {
         fetch(`http://localhost:4400/edit/${id}`).then(response => {
           response.json().then(postInfo => {
@@ -37,9 +36,13 @@ const EditPost = () => {
         setIsGastro(postInfo.isGastro)
         setIsGaming(postInfo.isGaming)
         setIsFinance(postInfo.isFinance)
+        if(postInfo.author._id !== userInfo?.id){
+            setRedirect(true)
+        }
+        
           })
         })
-      }, [])
+      }, [userInfo])
 
     
     const [title, setTtile] = useState('');
