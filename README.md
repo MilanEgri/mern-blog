@@ -36,17 +36,8 @@ Follow this guide to run the application.
 
 - Have NodeJS installed on your system. You can get NodeJS here: https://nodejs.org/en/download
 
-- Create a free database at MongoDB Atlas:
-1. Go to https://www.mongodb.com/cloud/atlas/register and register an account.
-2. After logging in click the `Database` item from the left sidebar and then click `Build database`.
-3. You will see multiple price plans, select the free one.
-4. Select a provider, select the region that is the closest to you, name your database and click on `Create`.
-5. On the next page you will need to create an user for the database. Select `Username and Password`, choose an username and a password and click `Create User`.
-6. At the bottom of this page click `Add My Current IP Address`.
-7. Click `Finish and Close`
-8. You will be redirected to the Overview page, if you did everything correctly, the database you created should show up here.
-9. Click on `Connect` and then `Compass`. You don't need to download anything, only the connection string is needed from here.
-10. Copy the connection string and replace the `<password>` part with the password you previously created for this database. You will need this string in the Installation part of this guide.
+- Create a free database at MongoDB Atlas and get a connection string:
+-  Copy the connection string and replace the `<password>` part with the password you previously created for this database. You will need this string in the Installation part of this guide.
 
 ### Installation
 
